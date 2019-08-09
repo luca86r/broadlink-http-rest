@@ -235,8 +235,8 @@ def sendCommand(commandName,deviceName):
         device = DeviceByName[deviceName];
         serviceName = deviceName + ' Commands'
 
-    deviceKey = device.key
-    deviceIV = device.iv
+    #deviceKey = device.key
+    #deviceIV = device.iv
 
     if settingsFile.has_option(serviceName, commandName):
         commandFromSettings = settingsFile.get(serviceName, commandName)
@@ -272,11 +272,12 @@ def sendCommand(commandName,deviceName):
                     sendCommand(command,deviceName)
 
             return True
-        decodedCommand = binascii.unhexlify(commandFromSettings)
-        AESEncryption = AES.new(str(deviceKey), AES.MODE_CBC, str(deviceIV))
-        encodedCommand = AESEncryption.encrypt(str(decodedCommand))
+        #decodedCommand = binascii.unhexlify(commandFromSettings)
+        #AESEncryption = AES.new(str(deviceKey), AES.MODE_CBC, str(deviceIV))
+        #encodedCommand = AESEncryption.encrypt(str(decodedCommand))
 
-        finalCommand = encodedCommand[0x04:]
+        #finalCommand = encodedCommand[0x04:]
+        finalCommand = commandFromSettings.decode('hex')
 
     try:
         device.send_data(finalCommand)
